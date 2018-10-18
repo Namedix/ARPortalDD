@@ -47,6 +47,53 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
 
+
+    fileprivate func setupScene() {
+        let node = SCNNode()
+        node.position = SCNVector3.init(0, 0, 0)
+
+        let leftWall = createBox(isDoor: false)
+        leftWall.position = SCNVector3.init((-lenght / 2) + width, 0, 0)
+        leftWall.eulerAngles = SCNVector3.init(0, 180.0.degreesToRadians, 0)
+
+        let rightWall = createBox(isDoor: false)
+        rightWall.position = SCNVector3.init((lenght / 2) - width, 0, 0)
+
+        let topWall = createBox(isDoor: false)
+        topWall.position = SCNVector3.init(0, (height / 2) - width, 0)
+        topWall.eulerAngles = SCNVector3.init(0, 0, 90.0.degreesToRadians)
+
+        let bottomWall = createBox(isDoor: false)
+        bottomWall.position = SCNVector3.init(0, (-height / 2) + width, 0)
+        bottomWall.eulerAngles = SCNVector3.init(0, 0, -90.0.degreesToRadians)
+
+        let backWall = createBox(isDoor: false)
+        backWall.position = SCNVector3.init(0, 0, (-lenght / 2) + width)
+        backWall.eulerAngles = SCNVector3.init(0, 90.0.degreesToRadians, 0)
+
+        let leftDoorSide = createBox(isDoor: true)
+        leftDoorSide.position = SCNVector3.init((-lenght / 2) + (doorLenght / 2), 0, lenght / 2)
+        leftDoorSide.eulerAngles = SCNVector3.init(0, -90.0.degreesToRadians, 0)
+
+        let rightDoorSide = createBox(isDoor: true)
+        rightDoorSide.position = SCNVector3.init((lenght / 2) - (doorLenght / 2), 0, lenght / 2)
+        rightDoorSide.eulerAngles = SCNVector3.init(0, -90.0.degreesToRadians, 0)
+
+        node.addChildNode(leftWall)
+        node.addChildNode(rightWall)
+        node.addChildNode(topWall)
+        node.addChildNode(bottomWall)
+        node.addChildNode(backWall)
+        node.addChildNode(leftDoorSide)
+        node.addChildNode(rightDoorSide)
+
+        self.sceneView.scene.rootNode.addChildNode(node)
+    }
+
+
+
+
+
     // MARK: - ARSCNViewDelegate
     
 /*
