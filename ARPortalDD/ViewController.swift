@@ -28,6 +28,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Set the scene to the view
         sceneView.scene = scene
+
+        setupScene()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +80,26 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let rightDoorSide = createBox(isDoor: true)
         rightDoorSide.position = SCNVector3.init((lenght / 2) - (doorLenght / 2), 0, lenght / 2)
         rightDoorSide.eulerAngles = SCNVector3.init(0, -90.0.degreesToRadians, 0)
+
+        let light = SCNLight()
+        light.type = .spot
+        light.spotInnerAngle = 70
+        light.spotOuterAngle = 120
+        light.zNear = 0.00001
+        light.zFar = 5
+        light.castsShadow = true
+        light.shadowRadius = 200
+        light.shadowColor = UIColor.black.withAlphaComponent(0.3)
+        light.shadowMode = .deferred
+
+        let constraint = SCNLookAtConstraint(target: bottomWall)
+        constraint.isGimbalLockEnabled = true
+
+        let lightNode = SCNNode()
+        lightNode.light = light
+        lightNode.position = SCNVector3.init(0, 0.4, 0)
+        lightNode.constraints = [constraint]
+        node.addChildNode(lightNode)
 
         node.addChildNode(leftWall)
         node.addChildNode(rightWall)
